@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9BA8DAAD1C3AFDCA00B29249 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA8DAAC1C3AFDCA00B29249 /* GLUT.framework */; };
+		9BA8DAAF1C3AFDD100B29249 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA8DAAE1C3AFDD100B29249 /* OpenGL.framework */; };
+		9BA8DAB11C3AFE0E00B29249 /* GLUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA8DAB01C3AFE0E00B29249 /* GLUI.framework */; };
 		9BAF2BEB1C260915006A3CD5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9BAF2BEA1C260915006A3CD5 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +26,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9BA8DAAC1C3AFDCA00B29249 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		9BA8DAAE1C3AFDD100B29249 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		9BA8DAB01C3AFE0E00B29249 /* GLUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUI.framework; path = ../../../../../../../../Library/Frameworks/GLUI.framework; sourceTree = "<group>"; };
 		9BAF2BE71C260915006A3CD5 /* Robotic_wrist */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Robotic_wrist; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BAF2BEA1C260915006A3CD5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -32,6 +38,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BA8DAB11C3AFE0E00B29249 /* GLUI.framework in Frameworks */,
+				9BA8DAAF1C3AFDD100B29249 /* OpenGL.framework in Frameworks */,
+				9BA8DAAD1C3AFDCA00B29249 /* GLUT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +50,9 @@
 		9BAF2BDE1C260915006A3CD5 = {
 			isa = PBXGroup;
 			children = (
+				9BA8DAB01C3AFE0E00B29249 /* GLUI.framework */,
+				9BA8DAAE1C3AFDD100B29249 /* OpenGL.framework */,
+				9BA8DAAC1C3AFDCA00B29249 /* GLUT.framework */,
 				9BAF2BE91C260915006A3CD5 /* Robotic_wrist */,
 				9BAF2BE81C260915006A3CD5 /* Products */,
 			);
@@ -207,6 +219,10 @@
 		9BAF2BEF1C260915006A3CD5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -214,6 +230,10 @@
 		9BAF2BF01C260915006A3CD5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -237,6 +257,7 @@
 				9BAF2BF01C260915006A3CD5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
