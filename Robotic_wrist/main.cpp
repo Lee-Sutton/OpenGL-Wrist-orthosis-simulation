@@ -47,29 +47,43 @@ void display() {
     glPushMatrix();
     
     // Draw the first joint this joint will allow for pronation and supination of
+    // The rotation will occur at a distance away from the wrist at the diameter of the wrist brace
     // the wrist (rotation about the x-axis)
     glRotatef((GLfloat)theta1, 1.0, 0.0, 0.0);
     glTranslatef(1.0, 0.0, 0.0);
+    glTranslatef(0.0, 1.0, 0.0);
     wireBox(2.0, 0.4, 1.0);
     
     // Draw the second joint. This joint will allow for ulnar deviation and radial deviation
     // This joint will rotate around the y-axis in the opengl environment
+    // This joint will sit at the end of the first joint
+    glTranslatef(1.0, 0.0, 0.0);
     glRotatef((GLfloat)theta2, 0.0, 1.0, 0.0);
     glTranslatef(1.0, 0.0, 0.0);
     wireBox(2.0, 0.4, 1.0);
     
-    // Now we are ready to draw the lower arm.  Since the lower arm is attached
-    // to the upper arm we put the code here so that all rotations we do are
-    // relative to the rotation that we already made above to orient the upper
-    // arm.  So, we want to rotate elbow degrees about the z-axis.  But, like
-    // before, the anchor point for the rotation is at the end of the box, so
-    // we translate <1,0,0> before rotating.  But after rotating we have to
-    // position the lower arm at the end of the upper arm, so we have to
-    // translate it <1,0,0> again.
+    // Draw the third joint, this joint will allow for flexion and extension of the wrist
+    // This joint will rotate about the z-axis
+    // it will be placed at the end of second joint
     glTranslatef(1.0, 0.0, 0.0);
     glRotatef((GLfloat)theta2, 0.0, 0.0, 1.0);
     glTranslatef(1.0, 0.0, 0.0);
     wireBox(2.0, 0.4, 1.0);
+    
+    // Draw the hand brace to support the hand
+    // Use three wirecube functions
+    // Top of the brace
+    glTranslatef(0.0, -0.4, 0.0);
+    wireBox(2.0, 0.4, 4.0);
+    
+    // bottom of the hand brace
+    glTranslatef(0.0, -2.0, 0.0);
+    wireBox(2.0, 0.4, 4.0);
+    
+    // Side of the hand brace
+    glTranslatef(0.0, 1.2, -2.0);
+    wireBox(2.0, 2.4, 0.4);
+
     
     glPopMatrix();
     glFlush();
