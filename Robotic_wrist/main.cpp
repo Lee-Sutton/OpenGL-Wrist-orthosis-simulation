@@ -74,7 +74,7 @@ void display() {
     // This joint will rotate about the z-axis
     // it will be placed at the end of second joint
     glTranslatef(1.0, 0.0, 0.0);
-    glRotatef((GLfloat)theta2, 0.0, 0.0, 1.0);
+    glRotatef((GLfloat)theta3, 0.0, 0.0, 1.0);
     glTranslatef(1.0, 0.0, 0.0);
     wireBox(2.0, 0.4, 1.0);
     
@@ -139,12 +139,21 @@ int main(int argc, char** argv) {
     
     obj_panel = new GLUI_Panel( panel1, "Objects" );
     
-    /***** Control for object params *****/
+    // Add spinners for the three joint variables
+    // Spinner for theta 1
+    theta1_spinner = new GLUI_Spinner( obj_panel, "Scale:", &theta1);
+    theta1_spinner->set_float_limits( -90, 90 );
+    theta1_spinner->set_alignment( GLUI_ALIGN_RIGHT );
     
-    GLUI_Spinner *scale_spinner = new GLUI_Spinner( obj_panel, "Scale:", &theta1);
-    scale_spinner->set_float_limits( .2f, 4.0 );
-    scale_spinner->set_alignment( GLUI_ALIGN_RIGHT );
+    // Spinner for theta 2
+    theta2_spinner = new GLUI_Spinner( obj_panel, "Scale:", &theta2);
+    theta2_spinner->set_float_limits( -40, 40 );
+    theta2_spinner->set_alignment( GLUI_ALIGN_RIGHT );
     
+    // Spinner for theta 3
+    theta3_spinner = new GLUI_Spinner( obj_panel, "Scale:", &theta3);
+    theta3_spinner->set_float_limits( -60, 60 );
+    theta3_spinner->set_alignment( GLUI_ALIGN_RIGHT );
     
     /****** A 'quit' button *****/
     
