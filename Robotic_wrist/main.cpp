@@ -21,7 +21,7 @@ int             main_window;
 GLUI            *glui;
 GLUI_Checkbox   *checkbox;
 GLUI_Spinner    *theta1_spinner, *theta2_spinner, *theta3_spinner;
-GLUI_Panel      *joint_angles;
+GLUI_Panel      *joint_angles, *rehab_procedures;
 
 // This function will handle input from the keyboard and change the joint variables accordingly
 // This will be used for testing purposes, the main input will come from the GLUI user interface
@@ -185,23 +185,24 @@ int main(int argc, char** argv) {
     theta3_spinner->set_float_limits( -60, 60 );
     theta3_spinner->set_alignment( GLUI_ALIGN_RIGHT );
     
+    // Create a panel to contain the rehabilitation procedures
+    rehab_procedures = new GLUI_Panel( panel1, "Rehabiliation Procedures" );
+    
     // Add buttons to simulate the wrist rehabilitation procedures
     // First button for the flexion/extension rehab
-    new GLUI_Button( glui, "Flexion/Extension", 0,(GLUI_Update_CB) flexion_rehab);
+    new GLUI_Button( rehab_procedures, "Flexion/Extension", 0,(GLUI_Update_CB) flexion_rehab);
     
     // Second button for the supination and pronation
-    new GLUI_Button( glui, "Supination/Pronation", 0,(GLUI_Update_CB) supination_rehab);
+    new GLUI_Button( rehab_procedures, "Supination/Pronation", 0,(GLUI_Update_CB) supination_rehab);
     
     // Third button is for radial, ulnar deviation
-    new GLUI_Button( glui, "Radial/Ulnar", 0,(GLUI_Update_CB) radial_rehab);
+    new GLUI_Button( rehab_procedures, "Radial/Ulnar", 0,(GLUI_Update_CB) radial_rehab);
 
-    
     // Add a quit button
     new GLUI_Button( glui, "Quit", 0,(GLUI_Update_CB)exit );
     
     
-    /**** Link windows to GLUI ******/
-    
+    // Link the controls to the main graphics window
     glui->set_main_gfx_window( main_window );
     
     // Enter the glut main loop
