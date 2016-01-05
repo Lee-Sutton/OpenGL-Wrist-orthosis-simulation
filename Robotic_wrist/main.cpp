@@ -7,15 +7,13 @@
 #include <GL/glut.h>
 #endif
 
-// The robot arm is specified by (1) the angle that the upper arm makes
-// relative to the x-axis, called shoulderAngle, and (2) the angle that the
-// lower arm makes relative to the upper arm, called elbowAngle.  These angles
-// are adjusted in 5 degree increments by a keyboard callback.
+// Define the joint variables
 static int theta1 = 0;
 static int theta2 = 0;
+static int theta3 = 0;
 
-// Handles the keyboard event: the left and right arrows bend the elbow, the
-// up and down keys bend the shoulder.
+// This function will handle input from the keyboard and change the joint variables accordingly
+// This will be used for testing purposes, the main input will come from the GLUI user interface
 void special(int key, int, int) {
     switch (key) {
         case GLUT_KEY_LEFT: (theta2+= 5) %= 360; break;
@@ -39,23 +37,24 @@ void wireBox(GLdouble width, GLdouble height, GLdouble depth) {
     glPopMatrix();
 }
 
-// Displays the arm in its current position and orientation.  The whole
-// function is bracketed by glPushMatrix and glPopMatrix calls because every
-// time we call it we are in an "environment" in which a gluLookAt is in
-// effect.  (Note that in particular, replacing glPushMatrix with
-// glLoadIdentity makes you lose the camera setting from gluLookAt).
+// Displays the wrist exoskeleton starting with all joint variables = 0
+// function is bracketed by glPushMatrix and glPopMatrix
+// Used heirarchial modelling to transform the joints around the appropriate frames
 void display() {
     
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     
-    // Draw the upper arm, rotated shoulder degrees about the z-axis.  Note that
-    // the thing about glutWireBox is that normally its origin is in the middle
-    // of the box, but we want the "origin" of our box to be at the left end of
-    // the box, so it needs to first be shifted 1 unit in the x direction, then
-    // rotated.
-    glRotatef((GLfloat)theta1, 0.0, 0.0, 1.0);
+    // Draw the first joint this joint will allow for pronation and supination of
+    // the wrist (rotation about the x-axis)
+    glRotatef((GLfloat)theta1, 1.0, 0.0, 0.0);
+    glTranslatef(1.0, 0.0, 0.0);
+    wireBox(2.0, 0.4, 1.0);
+    
+    // Draw the second joint. This joint will allow for ulnar deviation and radial deviation
+    // This joint will rotate around the y-axis in the opengl environment
+    glRotatef((GLfloat)theta2, 0.0, 1.0, 0.0);
     glTranslatef(1.0, 0.0, 0.0);
     wireBox(2.0, 0.4, 1.0);
     
