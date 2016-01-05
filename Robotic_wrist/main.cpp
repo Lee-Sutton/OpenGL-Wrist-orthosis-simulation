@@ -73,6 +73,18 @@ void radial_rehab(void){
     printf("Radial/Ulnar deviation rehab procedures activated...\n");
 }
 
+// Write a tracking function to move the wrist through the rehabilitation movements smoothly
+// This function will take two angle inputs (of type float) which will be used at the starting
+// and end point of the motion respectively. It will create smooth motion by using a cubic polynomial function
+// It will return no values.
+void trajectory (float initial_angle, float final_angle){
+    // 
+
+
+
+}
+
+
 
 // Displays the wrist exoskeleton starting with all joint variables = 0
 // function is bracketed by glPushMatrix and glPopMatrix
