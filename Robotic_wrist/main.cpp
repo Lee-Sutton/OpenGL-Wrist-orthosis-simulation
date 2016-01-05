@@ -6,11 +6,19 @@
 #else
 #include <GL/glut.h>
 #endif
+#include <GLUI/GLUI.h>
 
 // Define the joint variables
 static int theta1 = 0;
 static int theta2 = 0;
 static int theta3 = 0;
+
+// Pointers to the windows and some of the controls
+int main_window;
+GLUI            *glui;
+GLUI_Checkbox   *checkbox;
+GLUI_Spinner    *theta1_spinner, *theta2_spinner, *theta3_spinner;
+GLUI_Panel      *obj_panel;
 
 // This function will handle input from the keyboard and change the joint variables accordingly
 // This will be used for testing purposes, the main input will come from the GLUI user interface
@@ -116,10 +124,49 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowPosition(80, 80);
     glutInitWindowSize(800, 600);
-    glutCreateWindow("Robot Arm");
+    main_window = glutCreateWindow("Robot Arm");
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutSpecialFunc(special);
     init();
+    
+    // Use the GLUI interface to set up a GUI to control the wrist rehabiliation device
+    // Create the main glui window
+    glui = GLUI_Master.create_glui( "GLUI", 0, 400, 50 );
+    
+    // Add an invisible panel to hold the controls
+    GLUI_Panel *panel1 = new GLUI_Panel(glui, "", GLUI_PANEL_NONE );
+    
+    obj_panel = new GLUI_Panel( panel1, "Objects" );
+    
+    /***** Control for object params *****/
+    
+    GLUI_Spinner *scale_spinner = new GLUI_Spinner( obj_panel, "Scale:", &theta1);
+    scale_spinner->set_float_limits( .2f, 4.0 );
+    scale_spinner->set_alignment( GLUI_ALIGN_RIGHT );
+    
+    
+    /****** A 'quit' button *****/
+    
+    new GLUI_Button( glui, "Quit", 0,(GLUI_Update_CB)exit );
+    
+    
+    /**** Link windows to GLUI ******/
+    
+    glui->set_main_gfx_window( main_window );
+    
+    // Enter the glut main loop
     glutMainLoop();
 }
+
+
+
+
+
+
+
+
+
+
+
+
