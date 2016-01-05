@@ -7,6 +7,9 @@
 #include <GL/glut.h>
 #endif
 #include <GLUI/GLUI.h>
+#include <stdio.h>
+
+using namespace std;
 
 // Define the joint variables
 static int theta1 = 0;
@@ -14,11 +17,11 @@ static int theta2 = 0;
 static int theta3 = 0;
 
 // Pointers to the windows and some of the controls
-int main_window;
+int             main_window;
 GLUI            *glui;
 GLUI_Checkbox   *checkbox;
 GLUI_Spinner    *theta1_spinner, *theta2_spinner, *theta3_spinner;
-GLUI_Panel      *obj_panel;
+GLUI_Panel      *joint_angles;
 
 // This function will handle input from the keyboard and change the joint variables accordingly
 // This will be used for testing purposes, the main input will come from the GLUI user interface
@@ -33,6 +36,7 @@ void special(int key, int, int) {
     glutPostRedisplay();
 }
 
+
 // wireBox(w, h, d) makes a wireframe box with width w, height h and
 // depth d centered at the origin.  It uses the GLUT wire cube function.
 // The calls to glPushMatrix and glPopMatrix are essential here; they enable
@@ -44,6 +48,31 @@ void wireBox(GLdouble width, GLdouble height, GLdouble depth) {
     glutWireCube(1.0);
     glPopMatrix();
 }
+
+// Flexion Extension function to take the wrist through flexion extension rehab
+void flexion_rehab(void){
+    // Write a function here to take the wrist through rehab with slow movement
+    // Need a tracking function
+    // Print something on the screen for testing purposes
+    printf("flexion/extension rehab procedures activated...\n");
+}
+
+// Flexion Extension function to take the wrist through flexion extension rehab
+void supination_rehab(void){
+    // Write a function here to take the wrist through rehab with slow movement
+    // Need a tracking function
+    // Print something on the screen for testing purposes
+    printf("Supination/Pronation rehab procedures activated...\n");
+}
+
+// Flexion Extension function to take the wrist through flexion extension rehab
+void radial_rehab(void){
+    // Write a function here to take the wrist through rehab with slow movement
+    // Need a tracking function
+    // Print something on the screen for testing purposes
+    printf("Radial/Ulnar deviation rehab procedures activated...\n");
+}
+
 
 // Displays the wrist exoskeleton starting with all joint variables = 0
 // function is bracketed by glPushMatrix and glPopMatrix
@@ -114,7 +143,7 @@ void init() {
     glShadeModel(GL_FLAT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(1,2,8, 0,0,0, 0,1,0);
+    gluLookAt(4,2,8, 4,0,0, 0,1,0);
 }
 
 // Initializes GLUT, the display mode, and main window; registers callbacks;
@@ -137,26 +166,37 @@ int main(int argc, char** argv) {
     // Add an invisible panel to hold the controls
     GLUI_Panel *panel1 = new GLUI_Panel(glui, "", GLUI_PANEL_NONE );
     
-    obj_panel = new GLUI_Panel( panel1, "Objects" );
+    // Create a panel to contain the joint angles
+    joint_angles = new GLUI_Panel( panel1, "Joint Angles" );
     
     // Add spinners for the three joint variables
     // Spinner for theta 1
-    theta1_spinner = new GLUI_Spinner( obj_panel, "Scale:", &theta1);
+    theta1_spinner = new GLUI_Spinner( joint_angles, "Scale:", &theta1);
     theta1_spinner->set_float_limits( -90, 90 );
     theta1_spinner->set_alignment( GLUI_ALIGN_RIGHT );
     
     // Spinner for theta 2
-    theta2_spinner = new GLUI_Spinner( obj_panel, "Scale:", &theta2);
+    theta2_spinner = new GLUI_Spinner( joint_angles, "Scale:", &theta2);
     theta2_spinner->set_float_limits( -40, 40 );
     theta2_spinner->set_alignment( GLUI_ALIGN_RIGHT );
     
     // Spinner for theta 3
-    theta3_spinner = new GLUI_Spinner( obj_panel, "Scale:", &theta3);
+    theta3_spinner = new GLUI_Spinner( joint_angles, "Scale:", &theta3);
     theta3_spinner->set_float_limits( -60, 60 );
     theta3_spinner->set_alignment( GLUI_ALIGN_RIGHT );
     
-    /****** A 'quit' button *****/
+    // Add buttons to simulate the wrist rehabilitation procedures
+    // First button for the flexion/extension rehab
+    new GLUI_Button( glui, "Flexion/Extension", 0,(GLUI_Update_CB) flexion_rehab);
     
+    // Second button for the supination and pronation
+    new GLUI_Button( glui, "Supination/Pronation", 0,(GLUI_Update_CB) supination_rehab);
+    
+    // Third button is for radial, ulnar deviation
+    new GLUI_Button( glui, "Radial/Ulnar", 0,(GLUI_Update_CB) radial_rehab);
+
+    
+    // Add a quit button
     new GLUI_Button( glui, "Quit", 0,(GLUI_Update_CB)exit );
     
     
