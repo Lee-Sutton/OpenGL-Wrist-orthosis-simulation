@@ -9,6 +9,7 @@
 #include <GLUI/GLUI.h>
 #include <stdio.h>
 #include <math.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -38,27 +39,18 @@ void special(int key, int, int) {
     glutPostRedisplay();
 }
 
+
+// Run an idle function to update the GLUI controls based on what is happening in the screen
+// This function will allow the angles to be displayed in the spinners as the device runs through
+// the rehab procedures
 void myGlutIdle(void)
 {
-    /* According to the GLUT specification, the current window is
-     undefined during an idle callback.  So we need to explicitly change
-     it if necessary */
+
     if (glutGetWindow() != main_window)
         glutSetWindow(main_window);
     
     
     glutPostRedisplay();
-    
-    /****************************************************************/
-    /*            This demonstrates GLUI::sync_live()               */
-    /*   We change the value of a variable that is 'live' to some   */
-    /*   control.  We then call sync_live, and the control          */
-    /*   associated with that variable is automatically updated     */
-    /*   with the new value.  This frees the programmer from having */
-    /*   to always remember which variables are used by controls -  */
-    /*   simply change whatever variables are necessary, then sync  */
-    /*   the live ones all at once with a single call to sync_live  */
-    /****************************************************************/
     
     counter++;
     
@@ -77,13 +69,14 @@ void trajectory (int initial_angle, int final_angle, int *theta, int tf){
     // Note a1 = 0 since the arm has no initial velocity
     float a0 = initial_angle;
     float a2 = 3/pow(tf,2) * (final_angle - initial_angle);
-    float a3 = 3/pow(tf,2) * (final_angle - initial_angle);
+    float a3 = -2/pow(tf,3) * (final_angle - initial_angle);
     
     // Create a for loop to run the angle through the cubic trajectory
     for (int t = 0; t <= tf; t++ ){
         // Use the cubic trajectory function
         *theta = a0 + a2*pow(t, 2) + a3*pow(t, 3);
         printf("%d\n",theta3);
+        sleep(1);
     }
     
     // Return from the function when the for loop is complete
