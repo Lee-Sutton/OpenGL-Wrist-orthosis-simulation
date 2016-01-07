@@ -18,6 +18,7 @@ static int theta3 = 0;
 
 // Pointers to the windows and some of the controls
 int             main_window;
+int             counter = 0;
 GLUI            *glui;
 GLUI_Checkbox   *checkbox;
 GLUI_Spinner    *theta1_spinner, *theta2_spinner, *theta3_spinner;
@@ -36,6 +37,33 @@ void special(int key, int, int) {
     glutPostRedisplay();
 }
 
+void myGlutIdle(void)
+{
+    /* According to the GLUT specification, the current window is
+     undefined during an idle callback.  So we need to explicitly change
+     it if necessary */
+    if (glutGetWindow() != main_window)
+        glutSetWindow(main_window);
+    
+    
+    glutPostRedisplay();
+    
+    /****************************************************************/
+    /*            This demonstrates GLUI::sync_live()               */
+    /*   We change the value of a variable that is 'live' to some   */
+    /*   control.  We then call sync_live, and the control          */
+    /*   associated with that variable is automatically updated     */
+    /*   with the new value.  This frees the programmer from having */
+    /*   to always remember which variables are used by controls -  */
+    /*   simply change whatever variables are necessary, then sync  */
+    /*   the live ones all at once with a single call to sync_live  */
+    /****************************************************************/
+    
+    counter++;
+    
+    glui->sync_live();
+    
+}
 
 // wireBox(w, h, d) makes a wireframe box with width w, height h and
 // depth d centered at the origin.  It uses the GLUT wire cube function.
@@ -71,6 +99,11 @@ void radial_rehab(void){
     // Need a tracking function
     // Print something on the screen for testing purposes
     printf("Radial/Ulnar deviation rehab procedures activated...\n");
+    int * theta3_pointer;
+    theta3_pointer = &theta3;
+    *theta3_pointer = 50;
+    printf("%d", theta3);
+    return;
 }
 
 // Write a tracking function to move the wrist through the rehabilitation movements smoothly
@@ -78,7 +111,7 @@ void radial_rehab(void){
 // and end point of the motion respectively. It will create smooth motion by using a cubic polynomial function
 // It will return no values.
 void trajectory (float initial_angle, float final_angle){
-    // 
+    //
 
 
 
@@ -216,6 +249,9 @@ int main(int argc, char** argv) {
     
     // Link the controls to the main graphics window
     glui->set_main_gfx_window( main_window );
+    
+    // Make a call to the GLUI idle function here so that the spinners update as the program runs
+    GLUI_Master.set_glutIdleFunc(myGlutIdle);
     
     // Enter the glut main loop
     glutMainLoop();
