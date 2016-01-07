@@ -8,6 +8,7 @@
 #endif
 #include <GLUI/GLUI.h>
 #include <stdio.h>
+#include <math.h>
 
 using namespace std;
 
@@ -65,6 +66,31 @@ void myGlutIdle(void)
     
 }
 
+// Write a tracking function to move the wrist through the rehabilitation movements smoothly
+// This function will take 4 inputs. Two of the inputs will be of type float which and will specify the initial
+// and end point of the motion respectively. The third input will be a pointer to the angle to be updated.
+// The last input will be the time to complete the motion
+// It will create smooth motion by using a cubic polynomial function it will return no values.
+void trajectory (int initial_angle, int final_angle, int *theta, int tf){
+    
+    // Initialize the paramters for the equation
+    // Note a1 = 0 since the arm has no initial velocity
+    float a0 = initial_angle;
+    float a2 = 3/pow(tf,2) * (final_angle - initial_angle);
+    float a3 = 3/pow(tf,2) * (final_angle - initial_angle);
+    
+    // Create a for loop to run the angle through the cubic trajectory
+    for (int t = 0; t <= tf; t++ ){
+        // Use the cubic trajectory function
+        *theta = a0 + a2*pow(t, 2) + a3*pow(t, 3);
+        printf("%d\n",theta3);
+    }
+    
+    // Return from the function when the for loop is complete
+    return;
+    
+}
+
 // wireBox(w, h, d) makes a wireframe box with width w, height h and
 // depth d centered at the origin.  It uses the GLUT wire cube function.
 // The calls to glPushMatrix and glPopMatrix are essential here; they enable
@@ -85,7 +111,7 @@ void flexion_rehab(void){
     printf("flexion/extension rehab procedures activated...\n");
 }
 
-// Flexion Extension function to take the wrist through flexion extension rehab
+// Supination Extension function to take the wrist through supination rehab
 void supination_rehab(void){
     // Write a function here to take the wrist through rehab with slow movement
     // Need a tracking function
@@ -93,7 +119,7 @@ void supination_rehab(void){
     printf("Supination/Pronation rehab procedures activated...\n");
 }
 
-// Flexion Extension function to take the wrist through flexion extension rehab
+// Radial Extension function to take the wrist through radial extension rehab
 void radial_rehab(void){
     // Write a function here to take the wrist through rehab with slow movement
     // Need a tracking function
@@ -101,23 +127,11 @@ void radial_rehab(void){
     printf("Radial/Ulnar deviation rehab procedures activated...\n");
     int * theta3_pointer;
     theta3_pointer = &theta3;
-    *theta3_pointer = 50;
-    printf("%d", theta3);
+    
+    // Make a call to the trajectory function
+    trajectory(theta3, 45, theta3_pointer, 1000);
     return;
 }
-
-// Write a tracking function to move the wrist through the rehabilitation movements smoothly
-// This function will take two angle inputs (of type float) which will be used at the starting
-// and end point of the motion respectively. It will create smooth motion by using a cubic polynomial function
-// It will return no values.
-void trajectory (float initial_angle, float final_angle){
-    //
-
-
-
-}
-
-
 
 // Displays the wrist exoskeleton starting with all joint variables = 0
 // function is bracketed by glPushMatrix and glPopMatrix
