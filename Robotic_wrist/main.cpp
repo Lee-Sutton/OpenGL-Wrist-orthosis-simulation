@@ -25,6 +25,8 @@ GLUI            *glui;
 GLUI_Checkbox   *checkbox;
 GLUI_Spinner    *theta1_spinner, *theta2_spinner, *theta3_spinner;
 GLUI_Panel      *joint_angles, *rehab_procedures;
+// Define a quadric object for the cylinder function
+GLUquadricObj* myReusableQuadric = 0;
 
 // This function will handle input from the keyboard and change the joint variables accordingly
 // This will be used for testing purposes, the main input will come from the GLUI user interface
@@ -70,6 +72,41 @@ void wireBox(GLdouble width, GLdouble height, GLdouble depth) {
     glPopMatrix();
 }
 
+//Cylinder function makes use of glucylinder function
+void drawSlantCylinder(double height, double radiusBase, double radiusTop, int slices, int stacks)
+{
+    if (!myReusableQuadric) {
+        myReusableQuadric = gluNewQuadric();
+        // Should (but don't) check if pointer is still null --- to catch memory allocation errors.
+        gluQuadricNormals(myReusableQuadric, GL_TRUE);
+    }
+    // Draw the cylinder.
+    gluCylinder(myReusableQuadric, radiusBase, radiusTop, height, slices, stacks);
+}
+void drawCylinder(double height, double radius, int slices, int stacks) {
+    drawSlantCylinder(height, radius, radius, slices, stacks);
+}
+void drawSlantCylinderWithCaps(double height, double radiusBase, double radiusTop, int slices, int stacks)
+{
+    // First draw the cylinder
+    drawSlantCylinder(height, radiusBase, radiusTop, slices, stacks);
+    
+    // Draw the top disk cap
+    glPushMatrix();
+    glTranslated(0.0, 0.0, height);
+    gluDisk(myReusableQuadric, 0.0, radiusTop, slices, stacks);
+    glPopMatrix();
+    
+    // Draw the bottom disk cap
+    glPushMatrix();
+    glRotated(180.0, 1.0, 0.0, 0.0);
+    gluDisk(myReusableQuadric, 0.0, radiusBase, slices, stacks);
+    glPopMatrix();
+    
+}
+void drawCylinderWithCaps(double height, double radius, int slices, int stacks) {
+    drawSlantCylinderWithCaps(height, radius, radius, slices, stacks);
+}
 
 // Displays the wrist exoskeleton starting with all joint variables = 0
 // function is bracketed by glPushMatrix and glPopMatrix
@@ -78,6 +115,15 @@ void display() {
     
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
+    
+    /*
+    glPushMatrix();
+    // Draw a cylinder for the wrist brace
+    glRotatef(90, 0, 1, 0);
+    glTranslatef(-2, -1, 0);
+    drawCylinder(4, 2, 100, 150);
+    glPopMatrix(); */
+    
     glPushMatrix();
     
     // Draw the first joint this joint will allow for pronation and supination of
