@@ -45,7 +45,7 @@ void special(int key, int, int) {
 // the rehab procedures
 void myGlutIdle(void)
 {
-
+    
     if (glutGetWindow() != main_window)
         glutSetWindow(main_window);
     
@@ -117,7 +117,7 @@ void display() {
     // Side of the hand brace
     glTranslatef(0.0, 1.2, -2.0);
     wireBox(2.0, 2.4, 0.4);
-
+    
     
     glPopMatrix();
     glFlush();
@@ -178,6 +178,22 @@ void flexion_rehab(void){
     // Need a tracking function
     // Print something on the screen for testing purposes
     printf("flexion/extension rehab procedures activated...\n");
+    
+    // Declare a pointer for theta 2 to update it when we pass it to the trajectory function
+    int *theta1_pointer;
+    theta1_pointer = &theta1;
+    
+    // Make calls to the trajectory function to run through the rehab procedures smoothly
+    // If the wrist is not currently at the zero position, take it there
+    if (theta1 != 0){
+        trajectory(theta1, 0, theta1_pointer, 100); // Take you from the current position to +0
+    }
+    
+    // After returning to the zero position, run through the rehab
+    trajectory(theta1, 90, theta1_pointer, 100); // Take you from the current position to +90
+    trajectory(theta1, -90, theta1_pointer, 200); // Take you from the current position to -90
+    trajectory(theta1, 0, theta1_pointer, 100); // Take you from the current position to
+    return;
 }
 
 // Supination Extension function to take the wrist through supination rehab
@@ -186,6 +202,22 @@ void supination_rehab(void){
     // Need a tracking function
     // Print something on the screen for testing purposes
     printf("Supination/Pronation rehab procedures activated...\n");
+    
+    // Declare a pointer for theta 2 to update it when we pass it to the trajectory function
+    int *theta2_pointer;
+    theta2_pointer = &theta2;
+    
+    // Make calls to the trajectory function to run through the rehab procedures smoothly
+    // If the wrist is not currently at the zero position, take it there
+    if (theta2 != 0){
+        trajectory(theta2, 0, theta2_pointer, 100); // Take you from the current position to +0
+    }
+    
+    // After returning to the zero position, run through the rehab
+    trajectory(theta2, 40, theta2_pointer, 100); // Take you from the current position to +60
+    trajectory(theta2, -40, theta2_pointer, 200); // Take you from the current position to -60
+    trajectory(theta2, 0, theta2_pointer, 100); // Take you from the current position to
+    return;
 }
 
 // Radial Extension function to take the wrist through radial extension rehab
@@ -205,7 +237,7 @@ void radial_rehab(void){
     
     // After returning to the zero position, run through the rehab
     trajectory(theta3, 60, theta3_pointer, 100); // Take you from the current position to +60
-    trajectory(theta3, -60, theta3_pointer, 100); // Take you from the current position to -60
+    trajectory(theta3, -60, theta3_pointer, 200); // Take you from the current position to -60
     trajectory(theta3, 0, theta3_pointer, 100); // Take you from the current position to
     return;
 }
@@ -261,7 +293,7 @@ int main(int argc, char** argv) {
     
     // Third button is for radial, ulnar deviation
     new GLUI_Button( rehab_procedures, "Radial/Ulnar", 0,(GLUI_Update_CB) radial_rehab);
-
+    
     // Add a quit button
     new GLUI_Button( glui, "Quit", 0,(GLUI_Update_CB)exit );
     
