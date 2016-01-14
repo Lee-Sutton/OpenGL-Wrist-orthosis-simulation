@@ -9,7 +9,7 @@
 #include <GLUI/GLUI.h>
 #include <stdio.h>
 #include <math.h>
-#include <unistd.h>
+
 
 using namespace std;
 
@@ -332,13 +332,13 @@ int main(int argc, char** argv) {
     
     // Add buttons to simulate the wrist rehabilitation procedures
     // First button for the flexion/extension rehab
-    new GLUI_Button( rehab_procedures, "Flexion/Extension", 0,(GLUI_Update_CB) flexion_rehab);
+    new GLUI_Button( rehab_procedures, "Supination/Pronation", 0,(GLUI_Update_CB) flexion_rehab);
     
     // Second button for the supination and pronation
-    new GLUI_Button( rehab_procedures, "Supination/Pronation", 0,(GLUI_Update_CB) supination_rehab);
+    new GLUI_Button( rehab_procedures, "Radial/Ulnar", 0,(GLUI_Update_CB) supination_rehab);
     
     // Third button is for radial, ulnar deviation
-    new GLUI_Button( rehab_procedures, "Radial/Ulnar", 0,(GLUI_Update_CB) radial_rehab);
+    new GLUI_Button( rehab_procedures, "Flexion/Extension", 0,(GLUI_Update_CB) radial_rehab);
     
     // Add a quit button
     new GLUI_Button( glui, "Quit", 0,(GLUI_Update_CB)exit );
