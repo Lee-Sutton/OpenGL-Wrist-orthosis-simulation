@@ -137,15 +137,15 @@ void display() {
     // Draw the second joint. This joint will allow for ulnar deviation and radial deviation
     // This joint will rotate around the y-axis in the opengl environment
     // This joint will sit at the end of the first joint
-    glTranslatef(1.0, 0.0, 0.0);
+    glTranslatef(0.25, 0.0, 0.0);
     glRotatef((GLfloat)theta2, 0.0, 1.0, 0.0);
-    glTranslatef(1.0, 0.0, 0.0);
-    wireBox(2.0, 0.4, 1.0);
+    glTranslatef(0.5, 0.0, 0.0);
+    wireBox(0.5, 0.4, 1.0);
     
     // Draw the third joint, this joint will allow for flexion and extension of the wrist
     // This joint will rotate about the z-axis
     // it will be placed at the end of second joint
-    glTranslatef(1.0, 0.0, 0.0);
+    glTranslatef(0.25, 0.0, 0.0);
     glRotatef((GLfloat)theta3, 0.0, 0.0, 1.0);
     glTranslatef(1.0, 0.0, 0.0);
     wireBox(2.0, 0.4, 1.0);
@@ -313,17 +313,17 @@ int main(int argc, char** argv) {
     
     // Add spinners for the three joint variables
     // Spinner for theta 1
-    theta1_spinner = new GLUI_Spinner( joint_angles, "Scale:", &theta1);
+    theta1_spinner = new GLUI_Spinner( joint_angles, "Supination/Pronation", &theta1);
     theta1_spinner->set_float_limits( -90, 90 );
     theta1_spinner->set_alignment( GLUI_ALIGN_RIGHT );
     
     // Spinner for theta 2
-    theta2_spinner = new GLUI_Spinner( joint_angles, "Scale:", &theta2);
+    theta2_spinner = new GLUI_Spinner( joint_angles, "Radial/Ulnar Deviation", &theta2);
     theta2_spinner->set_float_limits( -40, 40 );
     theta2_spinner->set_alignment( GLUI_ALIGN_RIGHT );
     
     // Spinner for theta 3
-    theta3_spinner = new GLUI_Spinner( joint_angles, "Scale:", &theta3);
+    theta3_spinner = new GLUI_Spinner( joint_angles, "Flexion/Extension", &theta3);
     theta3_spinner->set_float_limits( -60, 60 );
     theta3_spinner->set_alignment( GLUI_ALIGN_RIGHT );
     
