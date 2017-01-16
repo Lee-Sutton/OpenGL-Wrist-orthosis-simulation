@@ -13,7 +13,7 @@ The project was built in xcode and requires:
 The code should compile with windows with the appropriate libraries installed but I have not personally tried. 
 
 ## Screenshots
-Below I have attached a few screenshots of the project in use.
+Below I have attached a few screenshots from the project report. For a more detailed description check out the project pdf.
 
 ![Alt text](/screenshots/shot1.jpeg)
 
